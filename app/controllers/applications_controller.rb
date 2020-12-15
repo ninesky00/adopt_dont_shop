@@ -8,6 +8,7 @@ class ApplicationsController < ApplicationController
   end
   
   def new
+    @application = Application.new
   end
 
   def edit
@@ -15,24 +16,29 @@ class ApplicationsController < ApplicationController
   end
 
   def create
-    application = Application.find(params[:id])
-    application.create!(applications_params)
-    redirect_to "/applications/#{application.id}"
+    @application = Application.create(applications_params)
+    if @application.valid?
+      redirect_to "/applications"
+    else 
+      flash.now[:error] = @application.errors.full_messages.to_a
+      render 'new'
+    end
   end
   
   def update
     application = Application.find(params[:id])
-    application.update!(applications_params)
+    application.update(applications_params)
     redirect_to "/applications/#{application.id}"
   end
 
   def destroy
-    Application.find(params[:id])
+    Application.destroy(params[:id])
     redirect_to '/applications'
   end
 
   private
   def applications_params
-    params.permit(:name, :address, :description, :pets, :status)
+    status = { status: 'In Progress'}
+    params.permit(:name, :address, :city, :state, :zip, :description, :pets, :status).reverse_merge(status)
   end
 end

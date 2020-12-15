@@ -1,2 +1,10 @@
 <h1>Applications#new</h1>
-<p>Find me in app/views/applications/new.html.erb</p>
+<%= render partial: 'form', locals: { path: "/applications", 
+                                      method: :post, 
+                                      button_text: 'Create Application'} %>
+
+<% if @application.errors.any? %>
+<% @application.errors.full_messages.each do |message| %>
+<li><%= message %></li>
+<% end %>
+<% end %>
