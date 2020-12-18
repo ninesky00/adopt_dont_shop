@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Application, type: :model do
   before :each do
-    @application = create(:application)
-    @shelter = create(:shelter)
+    @application = create(:random_application)
+    @shelter = create(:random_shelter)
     @pet = create(:pet, shelter: @shelter)
   end
   describe "validation" do

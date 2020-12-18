@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get "/pets", to: "pets#index"
   get "/pets/:id", to: "pets#show"
   get "/pets/:id/edit", to: "pets#edit"
-  patch "/pets/:id", to: "pets#update"
+  patch "/pets/:id", to: "pets#update", as: "pet_udpate"
   delete "/pets/:id", to: "pets#destroy"
 
   get "/shelters/:shelter_id/pets", to: "shelter_pets#index"
@@ -22,4 +22,10 @@ Rails.application.routes.draw do
   get "/shelters/:id/pets/:id", to: "pets#show"
 
   resources :applications
+  resources :pet_applications, only: [:create, :update]
+  
+  namespace :admin do 
+    resources :applications, only: [:index, :show]
+    resources :shelters, only: [:index, :show]
+  end
 end

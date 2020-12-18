@@ -5,6 +5,9 @@ class ApplicationsController < ApplicationController
 
   def show
     @application = Application.find(params[:id])
+    if params[:search]
+      @pets = Pet.search(params[:search])
+    end
   end
   
   def new
@@ -18,9 +21,9 @@ class ApplicationsController < ApplicationController
   def create
     @application = Application.create(applications_params)
     if @application.valid?
-      redirect_to "/applications"
+      redirect_to "/applications/#{@application.id}"
     else 
-      flash.now[:error] = @application.errors.full_messages.to_a
+      flash.now[:error] = @application.errors.full_messages
       render 'new'
     end
   end
@@ -38,7 +41,6 @@ class ApplicationsController < ApplicationController
 
   private
   def applications_params
-    status = { status: 'In Progress'}
-    params.permit(:name, :address, :city, :state, :zip, :description, :pets, :status).reverse_merge(status)
+    params.permit(:name, :address, :city, :state, :zip, :description, :pets, :status)
   end
 end

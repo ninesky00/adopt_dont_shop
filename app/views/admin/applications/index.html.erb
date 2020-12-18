@@ -1,0 +1,5 @@
+<h1>Admin Applications Index</h1>
+
+<% @applications.each do |a| %>
+  <p><%= link_to "#{a.name}", admin_application_path(a.id) %></p>
+<% end %>

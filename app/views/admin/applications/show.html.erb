@@ -1,0 +1,22 @@
+<h1>Admin Applications Show</h1>
+<%= link_to 'Applications', admin_applications_path %>
+<h2>Applicant</h2>
+<ul>
+  <li>Name: <%= @application.name %></li>
+  <li>Address: <%= @application.address %></li>
+  <p><%= @application.city %>, <%= @application.state %>, <%= @application.zip %> </p>
+  <li>Reason for Adoption: <%= @application.description %></li>
+  <li>Application Status: <%= @application.status %></li>
+</ul>
+
+<div class="adoption">Pets status
+<% @application.pet_applications.each do |app| %>
+  <p><%= app.pet.name %></p>
+  <% if app.pet.adoptable == true && app.in_progress? %>
+    <%= button_to "approve", pet_application_path("#{app.id}"), method: :patch, params:{status: :approved} %>
+    <%= button_to "reject", pet_application_path("#{app.id}"), method: :patch, params:{status: :rejected} %>
+  <% else %>
+    <%= app.status %>
+  <% end%>
+<% end %>
+</div>

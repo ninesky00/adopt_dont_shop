@@ -10,7 +10,7 @@ RSpec.describe "Application show page" do
                                   pets: "sample pets",
                                   status: "In Progress"
 
-  describe "as a visitor" do
+  describe "starting an application" do
     it "shows name, full address, description, name of pets, and status" do
     visit "/applications/#{applicant1.id}"
 
@@ -22,6 +22,19 @@ RSpec.describe "Application show page" do
     expect(page).to have_content(applicant1.description)
     expect(page).to have_content(applicant1.pets)
     expect(page).to have_content(applicant1.status)
+    end
+  end
+
+  describe "searching for pets for application" do 
+    it "can see a section to add pet to this application with input by pet name" do
+    visit "/applications/#{applicant1.id}"
+
+    expect(page).to have_content('Add a Pet to this Application')
+    expect(page).to have_button("search by name")
+    fill_in 'search', with: "fido"
+    click_button('search by name')
+    expect(current_path).to eq("/applications/#{applicant1.id}")
+    expect(page).to have_content("fido")
     end
   end
 end

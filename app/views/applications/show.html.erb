@@ -1,11 +1,40 @@
 <h1>Applications#show</h1>
+  <section id="application">
+  <ul>
+  <li><%= @application.name %></li>
+  <li><%= @application.address %></li>
+  <li><%= @application.city %></li>
+  <li><%= @application.state %></li>
+  <li><%= @application.zip %></li>
+  <li><%= @application.description %></li>
+  <li><%= @application.status %></li>
+  </ul>
 
-  <p><%= @application.name %></p>
-  <p><%= @application.address %></p>
-  <p><%= @application.city %></p>
-  <p><%= @application.state %></p>
-  <p><%= @application.zip %></p>
-  <p><%= @application.description %></p>
-  <p><%= @application.pets %></p>
-  <p><%= @application.status %></p>
+  <% @application.pets.each do |pet| %>
+    <%= pet.name %>
+    <% end %>
 
+    <% if @application.pets.count >= 1 && @application.in_progress? %>
+    <%= form_tag application_path, method: :patch do %>
+    <%= label_tag :"Tell us why you would be a good owner for these pet(s)" %>
+    <%= text_field_tag :description %>
+    <%= hidden_field_tag :status, :pending %>
+    <%= submit_tag 'Submit' %>
+    <% end %>
+    <% end %>
+
+  </section>
+ <% if @application.in_progress? %>
+  <%= form_tag application_path, method: :get do %>
+    <%= label_tag :search %>
+    <%= text_field_tag :search %>
+    <%= submit_tag 'Add a Pet to this Application' %>
+  <% end %>
+  <% end %>
+
+ <% if @pets %>
+    <% @pets.each do |pet| %>
+    <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
+    <%= button_to 'Adopt this Pet', pet_applications_path, params:{pet_id: pet.id, app_id: @application.id} %>
+    <% end %>
+  <% end %>

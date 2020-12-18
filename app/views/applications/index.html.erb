@@ -1,12 +1,12 @@
 <h1>Applications#index</h1>
 <% @applications.each do |t| %>
-  <p><%= t.name %></p>
+  <p><%= link_to "#{t.name}", "/applications/#{t.id}" %></p>
   <p><%= t.address %><p>
   <p><%= t.city %><p>
   <p><%= t.state %><p>
   <p><%= t.zip %><p>
   <p><%= t.description %></p>
-  <p><%= t.pets %></p>
+  <p><%= t.pets unless :null %></p>
   <p><%= t.status %></p>
 <% end %>
 

@@ -1,6 +1,9 @@
 require 'rails_helper'
 
-describe Pet, type: :model do
+RSpec.describe Pet, type: :model do
+  before :each do
+    @pet = create(:pet, shelter: @shelter)
+  end
   describe 'relationships' do
     it { should belong_to :shelter }
   end
